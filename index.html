@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jayarani — Full‑Stack Developer & Data Analyst</title>
+  <meta name="description" content="Portfolio of Jayarani — Full‑Stack Developer & Data Analyst. Projects in React, Next.js, Flask, MongoDB, AI agents, and data science." />
+  <meta name="author" content="Jayarani" />
+  <meta name="theme-color" content="#0f172a" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Jayarani — Portfolio" />
+  <meta property="og:description" content="Full‑Stack Developer & Data Analyst. Building AI‑powered apps and clean, scalable systems." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/assets/og-image.png" />
+  <meta property="og:url" content="https://example.com" />
+
+  <!-- Favicon placeholder -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230f172a'/%3E%3Ctext x='50' y='62' font-size='56' text-anchor='middle' fill='%23ffffff' font-family='Arial, Helvetica, sans-serif'%3EJ%3C/text%3E%3C/svg%3E" />
+
+  <style>
+    :root{
+      --bg: #0b1220;         /* slate-950 */
+      --panel: #0f172a;      /* slate-900 */
+      --soft: #111827;       /* gray-900 */
+      --text: #e5e7eb;       /* gray-200 */
+      --muted: #9ca3af;      /* gray-400 */
+      --brand: #22d3ee;      /* cyan-400 */
+      --accent: #a78bfa;     /* violet-400 */
+      --ring: #334155;       /* slate-700 */
+      --ok: #10b981;         /* emerald-500 */
+      --warn: #f59e0b;       /* amber-500 */
+      --err: #ef4444;        /* red-500 */
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg: #f8fafc;      /* slate-50 */
+        --panel: #ffffff;   /* white */
+        --soft: #f1f5f9;    /* slate-100 */
+        --text: #0f172a;    /* slate-900 */
+        --muted: #475569;   /* slate-600 */
+        --brand: #0891b2;   /* cyan-700 */
+        --accent: #6d28d9;  /* violet-700 */
+        --ring: #cbd5e1;    /* slate-300 */
+      }
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: linear-gradient(180deg, var(--bg), var(--soft));
+      color: var(--text); line-height:1.6;
+    }
+    a{color:var(--brand); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:1100px; margin:0 auto; padding:0 1.25rem}
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(12px);
+      background-color: color-mix(in hsl, var(--panel) 85%, transparent);
+      border-bottom:1px solid var(--ring);
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:0.75rem 0}
+    .brand{display:flex; gap:.75rem; align-items:center}
+    .brand .logo{width:36px; height:36px; border-radius:12px; background:linear-gradient(135deg, var(--brand), var(--accent)); display:grid; place-items:center; color:#0b1220; font-weight:800}
+    .brand span{font-weight:700; letter-spacing:.3px}
+    .nav a{margin-left:1rem; font-weight:600; color:var(--text); opacity:.85}
+    .nav a:hover{opacity:1}
+    .toggle{border:1px solid var(--ring); background:var(--panel); color:var(--text); padding:.5rem .75rem; border-radius:12px; cursor:pointer}
+
+    .hero{padding:4.5rem 0 3rem; display:grid; gap:2rem; grid-template-columns:1.2fr .8fr; align-items:center}
+    .hero-card{background:linear-gradient(180deg, color-mix(in hsl, var(--panel) 90%, transparent), color-mix(in hsl, var(--panel) 70%, transparent)); border:1px solid var(--ring); border-radius:20px; padding:2rem}
+    .kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1.25rem}
+    .kpi{background:var(--soft); border:1px solid var(--ring); border-radius:16px; padding:1rem; text-align:center}
+    .kpi .n{font-size:1.5rem; font-weight:800}
+
+    .chip{display:inline-flex; align-items:center; gap:.5rem; padding:.4rem .7rem; border-radius:999px; border:1px solid var(--ring); background:var(--panel); color:var(--muted); font-weight:600}
+
+    h1{font-size:clamp(1.8rem, 2.5vw + 1rem, 3.2rem); line-height:1.15; margin:.25rem 0}
+    h2{font-size:1.8rem; margin:0 0 .5rem}
+    h3{font-size:1.15rem; margin:.5rem 0}
+    p.lead{font-size:1.05rem; color:var(--muted)}
+
+    section{padding:3rem 0}
+    .section-head{display:flex; align-items:end; justify-content:space-between; gap:1rem; margin-bottom:1.25rem}
+    .cards{display:grid; grid-template-columns:repeat(12, 1fr); gap:1rem}
+    .card{grid-column:span 6; background:var(--panel); border:1px solid var(--ring); border-radius:20px; padding:1.1rem}
+    .card:hover{outline:2px solid color-mix(in hsl, var(--brand) 60%, transparent)}
+    .card .meta{display:flex; gap:.5rem; flex-wrap:wrap; margin:.25rem 0 .75rem}
+    .tag{font-size:.8rem; padding:.25rem .5rem; border-radius:999px; background:color-mix(in hsl, var(--brand) 15%, var(--soft)); border:1px solid var(--ring)}
+    .card h3{margin-top:0}
+    .card .actions{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:.6rem}
+    .btn{display:inline-flex; align-items:center; gap:.5rem; padding:.55rem .8rem; border-radius:12px; border:1px solid var(--ring); background:var(--soft); color:var(--text); font-weight:600}
+    .btn.primary{background:linear-gradient(135deg, var(--brand), var(--accent)); color:#0b1220; border-color:transparent}
+
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem}
+    .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:1rem}
+
+    .timeline{border-left:2px dashed var(--ring); padding-left:1rem}
+    .timeline-item{margin-bottom:1rem}
+
+    .skills{display:flex; flex-wrap:wrap; gap:.6rem}
+    .skill{padding:.4rem .7rem; border:1px dashed var(--ring); border-radius:999px; background:color-mix(in hsl, var(--panel) 50%, transparent)}
+
+    .contact{
+      background: radial-gradient(1200px 600px at 10% -10%, color-mix(in hsl, var(--brand) 20%, transparent), transparent),
+                  radial-gradient(1200px 600px at 110% 110%, color-mix(in hsl, var(--accent) 20%, transparent), transparent);
+      border:1px solid var(--ring); border-radius:24px; padding:1.5rem;
+    }
+    form{display:grid; gap:.8rem}
+    input, textarea{width:100%; padding:.8rem 1rem; border-radius:12px; border:1px solid var(--ring); background:var(--panel); color:var(--text)}
+    textarea{min-height:120px}
+
+    footer{padding:2rem 0; color:var(--muted); border-top:1px solid var(--ring)}
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr; padding-top:3.2rem}
+      .card{grid-column:span 12}
+      .grid-3{grid-template-columns:1fr}
+      .grid-2{grid-template-columns:1fr}
+      .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">J</div>
+        <span>Jayarani</span>
+      </div>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+        <button class="toggle" id="themeToggle" title="Toggle theme">🌗</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div class="hero-card">
+        <span class="chip">Available for internships & freelance</span>
+        <h1>Full‑Stack Developer & Data Analyst</h1>
+        <p class="lead">I build AI‑powered products and clean, scalable systems. Currently focused on React/Next.js, Flask/Node, and data‑driven apps with vector search, embeddings, and real‑time dashboards.</p>
+        <div class="kpis">
+          <div class="kpi"><div class="n">10+ </div><div>Major Projects</div></div>
+          <div class="kpi"><div class="n">6 mo</div><div>Placement Prep</div></div>
+          <div class="kpi"><div class="n">India</div><div>Asia/Kolkata</div></div>
+        </div>
+        <div class="actions" style="margin-top:1rem">
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn" href="mailto:jayarani@example.com">Email Me</a>
+          <a class="btn" href="/assets/Jayarani_Resume.pdf" download>Download Resume</a>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="height:100%">
+          <h3>Quick Links</h3>
+          <div class="grid-3">
+            <a class="btn" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="btn" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a class="btn" href="#contact">Contact</a>
+          </div>
+          <h3 style="margin-top:1rem">Focus Areas</h3>
+          <div class="skills">
+            <span class="skill">AI Agents</span>
+            <span class="skill">Vector DBs (pgvector, Pinecone)</span>
+            <span class="skill">Real‑Time Dashboards</span>
+            <span class="skill">Authentication & OAuth</span>
+            <span class="skill">Data Pipelines</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="section-head">
+        <h2>About</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <p>
+            Hi! I’m <strong>Jayarani</strong> — a full‑stack developer and data analyst passionate about shipping useful products fast. I enjoy turning ideas into robust, accessible UIs and building resilient backends with clear APIs and strong data models.
+          </p>
+          <p>
+            Recently I’ve been working on <em>AI‑powered assistants</em>, <em>flashcard generators</em>, and <em>GitHub repo analyzers</em> using embeddings, vector search, and realtime context windows. I prioritize good DX, clean architecture, and measurable outcomes.
+          </p>
+        </div>
+        <div class="card">
+          <div class="timeline">
+            <div class="timeline-item">
+              <h3>Education</h3>
+              <p>G.G.S.M.M. Hr. Sec. School, Mayiladuthurai — SSLC 80.72%</p>
+            </div>
+            <div class="timeline-item">
+              <h3>Interests</h3>
+              <p>ML for healthcare (eye‑scan cardiology), disaster tech, secure digital identity, accessibility (speech → sign language).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <div class="section-head">
+        <h2>Projects</h2>
+        <a class="btn" href="https://github.com/" target="_blank" rel="noreferrer">See All</a>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <h3>GitHub AI Agent</h3>
+          <p class="lead">Evaluates repositories using an LLM, stores context with embeddings (Supabase pgvector), and shows history in a React UI.</p>
+          <div class="meta">
+            <span class="tag">React</span><span class="tag">Flask</span><span class="tag">Gemini API</span><span class="tag">Supabase</span>
+          </div>
+          <div class="actions">
+            <a class="btn primary" href="#" target="_blank" rel="noreferrer">Live Demo</a>
+            <a class="btn" href="#" target="_blank" rel="noreferrer">Source</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>AI‑Powered Flashcard Generator</h3>
+          <p class="lead">Extracts text from PDFs or notes, generates flashcards via LLM, and serves JSON through a clean REST API.</p>
+          <div class="meta">
+            <span class="tag">Flask</span><span class="tag">React</span><span class="tag">MongoDB</span><span class="tag">Embeddings</span>
+          </div>
+          <div class="actions">
+            <a class="btn primary" href="#" target="_blank" rel="noreferrer">Live Demo</a>
+            <a class="btn" href="#" target="_blank" rel="noreferrer">Source</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Real‑Time Disaster Info Dashboard</h3>
+          <p class="lead">Aggregates social, news, and open data; categorizes with ML; shows actionable intelligence for responders.</p>
+          <div class="meta">
+            <span class="tag">Next.js</span><span class="tag">Node</span><span class="tag">WebSockets</span><span class="tag">NLP</span>
+          </div>
+          <div class="actions">
+            <a class="btn primary" href="#" target="_blank" rel="noreferrer">Case Study</a>
+            <a class="btn" href="#" target="_blank" rel="noreferrer">Source</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Track Buddy (Mobile)</h3>
+          <p class="lead">Flutter + Firebase bus management with real‑time tracking (Google Maps API) and ticketing (Razorpay).</p>
+          <div class="meta">
+            <span class="tag">Flutter</span><span class="tag">Firebase</span><span class="tag">Maps API</span>
+          </div>
+          <div class="actions">
+            <a class="btn primary" href="#" target="_blank" rel="noreferrer">Play Demo</a>
+            <a class="btn" href="#" target="_blank" rel="noreferrer">Source</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Resume Analyzer & Interviewer</h3>
+          <p class="lead">Parses resumes, detects skill gaps, generates interview questions, and simulates interviews.</p>
+          <div class="meta">
+            <span class="tag">NLP</span><span class="tag">Flask</span><span class="tag">React</span>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#" target="_blank" rel="noreferrer">Source</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Audio → Text → Sign Language</h3>
+          <p class="lead">Speech recognition to text, then animated sign language generation for accessibility.</p>
+          <div class="meta">
+            <span class="tag">ASR</span><span class="tag">Animation</span><span class="tag">Python</span>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#" target="_blank" rel="noreferrer">Source</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Secure Digital Identity</h3>
+          <p class="lead">R&D on privacy‑preserving identity verification and credential flows.</p>
+          <div class="meta">
+            <span class="tag">Crypto</span><span class="tag">Security</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Retinal Imaging → Cardio Risk</h3>
+          <p class="lead">Exploring models that predict heart risk from eye scans for early intervention.</p>
+          <div class="meta">
+            <span class="tag">ML</span><span class="tag">Healthcare</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience">
+      <div class="section-head">
+        <h2>Experience</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Full‑Stack Developer • Freelance/Academic</h3>
+          <p class="lead">Built production‑style apps with clean APIs, auth, and data layers. Led end‑to‑end delivery from UX to deployment.</p>
+          <ul>
+            <li>Implemented OAuth (Google/GitHub), session management, and RBAC.</li>
+            <li>Designed REST endpoints with pagination, caching, and validation.</li>
+            <li>Set up CI/CD, containerization, and structured logs.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Data Analyst • Projects</h3>
+          <p class="lead">Turned noisy data into actionable dashboards and insights for study and research projects.</p>
+          <ul>
+            <li>ETL pipelines with Python; profiling & data quality checks.</li>
+            <li>Visualizations and KPI tracking; experiment logging.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+      <div class="section-head">
+        <h2>Skills</h2>
+      </div>
+      <div class="card">
+        <div class="skills">
+          <span class="skill">React</span>
+          <span class="skill">Next.js</span>
+          <span class="skill">Node.js</span>
+          <span class="skill">Express</span>
+          <span class="skill">Flask</span>
+          <span class="skill">Python</span>
+          <span class="skill">MongoDB</span>
+          <span class="skill">Postgres</span>
+          <span class="skill">Supabase</span>
+          <span class="skill">pgvector</span>
+          <span class="skill">Pinecone</span>
+          <span class="skill">Firebase</span>
+          <span class="skill">Flutter/Dart</span>
+          <span class="skill">Razorpay API</span>
+          <span class="skill">Git/GitHub</span>
+          <span class="skill">Docker</span>
+          <span class="skill">WebSockets</span>
+          <span class="skill">REST APIs</span>
+          <span class="skill">NLP</span>
+          <span class="skill">Embeddings</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications / Achievements -->
+    <section id="achievements">
+      <div class="section-head">
+        <h2>Achievements & Certs</h2>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Placement Prep — 6 Months</h3>
+          <p>Completed structured study tracks in DSA, ML, DS, and aptitude.</p>
+        </div>
+        <div class="card">
+          <h3>Top Projects</h3>
+          <p>Disaster Info Dashboard, GitHub AI Agent, Flashcard Generator, Track Buddy.</p>
+        </div>
+        <div class="card">
+          <h3>Community</h3>
+          <p>Open‑source contributions and write‑ups on building LLM apps.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="section-head">
+        <h2>Contact</h2>
+      </div>
+      <div class="contact">
+        <form id="contactForm" action="mailto:jayarani@example.com" method="post" enctype="text/plain">
+          <div class="grid-2">
+            <div>
+              <label for="name">Name</label>
+              <input id="name" name="name" required placeholder="Your name" />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required placeholder="you@example.com" />
+            </div>
+          </div>
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required placeholder="How can I help?"></textarea>
+          </div>
+          <div class="actions">
+            <button class="btn primary" type="submit">Send</button>
+            <a class="btn" href="https://wa.me/" target="_blank" rel="noreferrer">WhatsApp</a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap">
+      <div>© <span id="year"></span> Jayarani. All rights reserved.</div>
+      <div>
+        <a href="#home">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JSON‑LD for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jayarani",
+    "jobTitle": "Full-Stack Developer & Data Analyst",
+    "url": "https://example.com",
+    "image": "https://example.com/assets/profile.jpg",
+    "sameAs": [
+      "https://github.com/",
+      "https://www.linkedin.com/"
+    ],
+    "worksFor": {"@type":"Organization","name":"Independent"},
+    "alumniOf": {"@type":"EducationalOrganization","name":"G.G.S.M.M. Hr. Sec. School"}
+  }
+  </script>
+
+  <script>
+    // Theme toggle
+    const toggle = document.getElementById('themeToggle');
+    const prefersLight = window.matchMedia('(prefers-color-scheme: light)');
+    const setTheme = (mode) => {
+      document.documentElement.dataset.theme = mode;
+      if(mode === 'light'){
+        document.documentElement.style.setProperty('--bg', '#f8fafc');
+        document.documentElement.style.setProperty('--panel', '#ffffff');
+        document.documentElement.style.setProperty('--soft', '#f1f5f9');
+        document.documentElement.style.setProperty('--text', '#0f172a');
+        document.documentElement.style.setProperty('--muted', '#475569');
+        document.documentElement.style.setProperty('--brand', '#0891b2');
+        document.documentElement.style.setProperty('--accent', '#6d28d9');
+        document.documentElement.style.setProperty('--ring', '#cbd5e1');
+      } else {
+        document.documentElement.style.setProperty('--bg', '#0b1220');
+        document.documentElement.style.setProperty('--panel', '#0f172a');
+        document.documentElement.style.setProperty('--soft', '#111827');
+        document.documentElement.style.setProperty('--text', '#e5e7eb');
+        document.documentElement.style.setProperty('--muted', '#9ca3af');
+        document.documentElement.style.setProperty('--brand', '#22d3ee');
+        document.documentElement.style.setProperty('--accent', '#a78bfa');
+        document.documentElement.style.setProperty('--ring', '#334155');
+      }
+      localStorage.setItem('theme', mode);
+    };
+    const stored = localStorage.getItem('theme');
+    setTheme(stored || (prefersLight.matches ? 'light' : 'dark'));
+    toggle.addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'light' ? 'dark':'light'));
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Smooth anchor scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if(href.length > 1){
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({behavior:'smooth'});
+        }
+      });
+    });
+
+    // Basic validation feedback
+    document.getElementById('contactForm').addEventListener('submit', (e)=>{
+      const ok = e.target.checkValidity();
+      if(!ok){
+        e.preventDefault();
+        alert('Please fill all required fields correctly.');
+      }
+    });
+  </script>
+</body>
+</html>
